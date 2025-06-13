@@ -25,7 +25,7 @@ import java.util.UUID
 
 object InsertionRequests extends ServicesConfiguration {
 
-  val nationalInsuranceNumber: String = RandomNino.next()
+  def nationalInsuranceNumber: String = RandomNino.next()
   val authToken: String               = AuthHelper.getAuthToken
 
   val baseUrl: String       = baseUrlFor("universal-credit-notification")
@@ -33,18 +33,19 @@ object InsertionRequests extends ServicesConfiguration {
   val originatorId: String  = ""
   val correlationId: String = UUID.randomUUID().toString
 
-  def insertionBody(): String =
+  def notificationBody: String =
     s"""
-       |{
-       |  "nationalInsuranceNumber": "$nationalInsuranceNumber",
-       |  "universalCreditRecordType": "UC",
-       |  "universalCreditAction": "Insert",
-       |  "dateOfBirth": "2002-10-10",
-       |  "liabilityStartDate": "2025-08-19"
-       |}
-       |""".stripMargin
+    |{
+    |  "nationalInsuranceNumber": "$nationalInsuranceNumber",
+    |  "universalCreditRecordType": "{{universalCreditRecordType}}",
+    |  "universalCreditAction": "{{universalCreditAction}}",
+    |{% if universalCreditAction == "Insert" %}  "dateOfBirth": "2002-10-10",\n{% endif %}
+    |{% if universalCreditAction == "Terminate" %}  "liabilityEndDate": "2025-08-19",\n{% endif %}
+    |  "liabilityStartDate": "2025-08-19"
+    |}
+    |""".stripMargin
 
-  val insertion: HttpRequestBuilder =
+  val sendNotification: HttpRequestBuilder =
     http("Send insertion notification")
       .post(s"$baseUrl$route")
       .headers(
@@ -55,6 +56,6 @@ object InsertionRequests extends ServicesConfiguration {
           "correlationId"        -> correlationId
         )
       )
-      .body(StringBody(insertionBody()))
+      .body(PebbleStringBody(notificationBody))
       .check(status.is(204))
 }

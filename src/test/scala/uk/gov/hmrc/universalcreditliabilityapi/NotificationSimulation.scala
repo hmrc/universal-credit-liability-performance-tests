@@ -19,13 +19,10 @@ package uk.gov.hmrc.universalcreditliabilityapi
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
 
 import uk.gov.hmrc.universalcreditliabilityapi.InsertionRequests._
-import uk.gov.hmrc.universalcreditliabilityapi.TerminationRequests._
 
 class NotificationSimulation extends PerformanceTestRunner {
 
-  setup("insertion", "Send Insertion Notification") withRequests insertion
-
-  setup("termination", "Send Termination Notification") withRequests termination
+  setup("sendNotification", "Send Notification") withRequests sendNotification
 
   runSimulation()
 }
