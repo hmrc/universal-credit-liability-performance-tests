@@ -3,6 +3,7 @@ resolvers += Resolver.url("HMRC-open-artefacts-ivy", url("https://open.artefacts
   Resolver.ivyStylePatterns
 )
 
+addSbtPlugin("ch.epfl.scala"  % "sbt-scalafix"           % "0.14.5")
 addSbtPlugin("io.gatling"     % "gatling-sbt"            % "4.9.2")
 addSbtPlugin("org.jmotor.sbt" % "sbt-dependency-updates" % "1.2.9")
 addSbtPlugin("org.scalameta"  % "sbt-scalafmt"           % "2.5.6")
