@@ -4,7 +4,7 @@ lazy val root = (project in file("."))
     name := "universal-credit-liability-performance-tests",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := "2.13.18",
-    //implicitConversions & postfixOps are Gatling recommended -language settings
+    // implicitConversions & postfixOps are Gatling recommended -language settings
     scalacOptions ++= Seq("-feature", "-language:implicitConversions", "-language:postfixOps"),
     // Enabling sbt-auto-build plugin provides DefaultBuildSettings with default `testOptions` from `sbt-settings` plugin.
     // These testOptions are not compatible with `sbt gatling:test`. So we have to override testOptions here.
@@ -16,5 +16,9 @@ lazy val root = (project in file("."))
       "--add-opens=java.base/java.lang=ALL-UNNAMED",
       "--add-opens=java.base/java.io=ALL-UNNAMED"
     ),
-    libraryDependencies ++= Dependencies.test
+    libraryDependencies ++= Dependencies.test,
+    // Scalafix / SemanticDB settings
+    scalafixConfigSettings(Gatling),
+    semanticdbEnabled := true,
+    semanticdbVersion := scalafixSemanticdb.revision // only required for Scala 2.x
   )
