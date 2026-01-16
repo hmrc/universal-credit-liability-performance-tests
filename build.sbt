@@ -9,5 +9,12 @@ lazy val root = (project in file("."))
     // Enabling sbt-auto-build plugin provides DefaultBuildSettings with default `testOptions` from `sbt-settings` plugin.
     // These testOptions are not compatible with `sbt gatling:test`. So we have to override testOptions here.
     Test / testOptions := Seq.empty,
+    // JVM args for Java 17/21 compatibility
+    // Resolves issue "IllegalAccessException: module java.base does not open java.lang to unnamed module"
+    // https://github.com/gatling/gatling/issues/4599
+    Gatling / javaOptions ++= Seq(
+      "--add-opens=java.base/java.lang=ALL-UNNAMED",
+      "--add-opens=java.base/java.io=ALL-UNNAMED"
+    ),
     libraryDependencies ++= Dependencies.test
   )
