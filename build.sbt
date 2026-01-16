@@ -22,3 +22,6 @@ lazy val root = (project in file("."))
     semanticdbEnabled := true,
     semanticdbVersion := scalafixSemanticdb.revision // only required for Scala 2.x
   )
+
+addCommandAlias("prePrChecks", "; scalafmtCheckAll; scalafmtSbtCheck; scalafixAll --check")
+addCommandAlias("lintCode", "; scalafmtAll; scalafmtSbt; scalafixAll")
