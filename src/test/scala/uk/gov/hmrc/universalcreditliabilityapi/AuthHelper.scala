@@ -42,12 +42,12 @@ object AuthHelper extends ServicesConfiguration {
         BodyPublishers.ofString(
           s"""
           |{
-          | "clientId": "${UUID.randomUUID().toString}",
-          | "authProvider": "PrivilegedApplication",
-          | "applicationId": "${UUID.randomUUID().toString}",
-          | "applicationName": "universal-credit-liability-api",
-          | "enrolments": [],
-          | "ttl": 60000
+          |  "clientId": "${UUID.randomUUID().toString}",
+          |  "authProvider": "PrivilegedApplication",
+          |  "applicationId": "${UUID.randomUUID().toString}",
+          |  "applicationName": "universal-credit-liability-api",
+          |  "enrolments": [],
+          |  "ttl": 60000
           |}
           |""".stripMargin
         )
@@ -57,9 +57,20 @@ object AuthHelper extends ServicesConfiguration {
 
     val response = http.send(request, BodyHandlers.ofString())
 
-    require(response.statusCode() == 201, "Unable to create auth token")
+    require(
+      response.statusCode() == 201,
+      s"Unable to create auth token. Status: ${response.statusCode()}, Body: ${response.body()}"
+    )
 
-    response.headers().firstValue("Authorization").toScala.get
+    response
+      .headers()
+      .firstValue("Authorization")
+      .toScala
+      .getOrElse(
+        throw new RuntimeException(
+          s"Authorization header missing from auth response. Headers found: ${response.headers().map()}"
+        )
+      )
   }
 
 }
