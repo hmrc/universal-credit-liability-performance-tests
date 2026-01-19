@@ -3,8 +3,11 @@ resolvers += Resolver.url("HMRC-open-artefacts-ivy", url("https://open.artefacts
   Resolver.ivyStylePatterns
 )
 
-addSbtPlugin("uk.gov.hmrc" % "sbt-auto-build" % "3.24.0")
+addSbtPlugin("ch.epfl.scala"  % "sbt-scalafix"           % "0.14.5")
+addSbtPlugin("io.gatling"     % "gatling-sbt"            % "4.15.0")
+addSbtPlugin("org.jmotor.sbt" % "sbt-dependency-updates" % "1.2.9")
+addSbtPlugin("org.scalameta"  % "sbt-scalafmt"           % "2.5.6")
+addSbtPlugin("uk.gov.hmrc"    % "sbt-auto-build"         % "3.24.0")
 
-addSbtPlugin("io.gatling" % "gatling-sbt" % "4.9.2")
-
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.6")
+// Scala module 2.16.1 requires Jackson Databind version >= 2.16.0 and < 2.17.0
+dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.16.1"
