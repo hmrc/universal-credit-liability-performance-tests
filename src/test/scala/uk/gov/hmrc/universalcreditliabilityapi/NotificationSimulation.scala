@@ -17,12 +17,13 @@
 package uk.gov.hmrc.universalcreditliabilityapi
 
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
-
-import uk.gov.hmrc.universalcreditliabilityapi.InsertionRequests._
+import uk.gov.hmrc.universalcreditliabilityapi.NotificationRequests.sendNotification
 
 class NotificationSimulation extends PerformanceTestRunner {
 
-  setup("sendNotification", "Send Notification") withRequests sendNotification
+  setup("send-universal-credit-liability-notifications", "Send Universal Credit Liability Notifications")
+    .withActions(NotificationRequests.correlationIdFeeder.actionBuilders: _*)
+    .withRequests(sendNotification)
 
   runSimulation()
 }
