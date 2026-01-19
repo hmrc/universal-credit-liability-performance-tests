@@ -37,8 +37,7 @@ object NotificationRequests extends ServicesConfiguration {
 
   def correlationIdFeeder: ChainBuilder = feed(randomCorrelationIDs)
 
-  // def nationalInsuranceNumber: String = RandomNino.next()
-  val nationalInsuranceNumber: String = "AE001474"
+  private val nationalInsuranceNumber: String = "AE001474"
 
   def notificationBody: String =
     s"""
