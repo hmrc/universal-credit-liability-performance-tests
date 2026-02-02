@@ -30,7 +30,7 @@ object NotificationRequests extends ServicesConfiguration {
   private val route: String   = "/notification"
 
   private val authToken: String    = AuthHelper.getAuthToken
-  private val originatorId: String = ""
+  private val govUkOriginatorId: String = "gov-uk-originator-id"
 
   val randomCorrelationIDs: Iterator[Map[String, String]] =
     Iterator.continually(Map("correlationId" -> UUID.randomUUID().toString))
@@ -58,7 +58,7 @@ object NotificationRequests extends ServicesConfiguration {
         Map(
           "authorization"        -> authToken,
           "content-type"         -> "application/json",
-          "gov-uk-originator-id" -> originatorId,
+          "gov-uk-originator-id" -> govUkOriginatorId,
           "correlationId"        -> "#{correlationId}" // Gatling Expression Language extracts correlationId from Feeder
         )
       )
