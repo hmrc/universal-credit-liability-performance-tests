@@ -30,7 +30,7 @@ object NotificationRequests extends ServicesConfiguration {
   private val route: String   = "/notification"
 
   private val authToken: String    = AuthHelper.getAuthToken
-  private val govUkOriginatorId: String = "gov-uk-originator-id"
+  private val govUkOriginatorId: String = "TEST-GOV-UK-ORIGINATOR-ID"
 
   val randomCorrelationIDs: Iterator[Map[String, String]] =
     Iterator.continually(Map("correlationId" -> UUID.randomUUID().toString))
