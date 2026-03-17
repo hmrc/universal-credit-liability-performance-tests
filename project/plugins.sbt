@@ -10,4 +10,4 @@ addSbtPlugin("org.scalameta"  % "sbt-scalafmt"           % "2.5.6")
 addSbtPlugin("uk.gov.hmrc"    % "sbt-auto-build"         % "3.24.0")
 
 // Scala module 2.16.1 requires Jackson Databind version >= 2.16.0 and < 2.17.0
-dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.16.1"
+dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.21.1"
