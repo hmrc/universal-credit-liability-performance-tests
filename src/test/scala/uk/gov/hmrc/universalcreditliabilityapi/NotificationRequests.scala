@@ -23,13 +23,14 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
 import java.util.UUID
+import scala.util.Random
 
 object NotificationRequests extends ServicesConfiguration {
 
   private val baseUrl: String = baseUrlFor("universal-credit-notification")
   private val route: String   = "/notification"
 
-  private val authToken: String    = AuthHelper.getAuthToken
+  private val authToken: String         = AuthHelper.getAuthToken
   private val govUkOriginatorId: String = "TEST-GOV-UK-ORIGINATOR-ID"
 
   val randomCorrelationIDs: Iterator[Map[String, String]] =
@@ -37,15 +38,18 @@ object NotificationRequests extends ServicesConfiguration {
 
   def correlationIdFeeder: ChainBuilder = feed(randomCorrelationIDs)
 
-  private val nationalInsuranceNumber: String = "AE001474"
+  def randomNationalInsuranceNumber: String = {
+    val number = f"${Random.nextInt(100000)}%06d"
+    val nino   = s"AE$number"
+    nino
+  }
 
   def notificationBody: String =
     s"""
        |{
-       |  "nationalInsuranceNumber": "$nationalInsuranceNumber",
+       |  "nationalInsuranceNumber": "$randomNationalInsuranceNumber",
        |  "universalCreditRecordType": "{{universalCreditRecordType}}",
        |  "universalCreditAction": "{{universalCreditAction}}",
-       |{% if universalCreditAction == "Insert" %}  "dateOfBirth": "2002-10-10",\n{% endif %}
        |{% if universalCreditAction == "Terminate" %}  "liabilityEndDate": "2025-08-19",\n{% endif %}
        |  "liabilityStartDate": "2025-08-19"
        |}
