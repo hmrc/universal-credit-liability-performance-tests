@@ -19,8 +19,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Dependencies.test,
     // Scalafix / SemanticDB settings
     scalafixConfigSettings(Gatling),
-    semanticdbEnabled := true,
-    semanticdbVersion := scalafixSemanticdb.revision // only required for Scala 2.x
+    semanticdbEnabled := true
   )
 
 addCommandAlias("prePrChecks", "; scalafmtCheckAll; scalafmtSbtCheck; scalafixAll --check")
